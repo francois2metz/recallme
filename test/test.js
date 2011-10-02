@@ -25,10 +25,13 @@ test('should restart the runnable fun if the maxRestart is provided', function()
         start();
         ok(false, "should not be called");
     }
-    sup.run(function(errback) {
+    sup.run(function(errback, data) {
         called++;
-        if (called == 1) errback();
-        else start();
+        if (called == 1) errback('test');
+        else {
+            start();
+            equals('test', data);
+        }
     });
 });
 

@@ -12,10 +12,12 @@
     }
     Supervisor.prototype._start = function() {
         var that = this;
-        this._run(function() {
-            if (that.maxRestart-- >= 0) that._start();
+        var errback = function() {
+            if (that.maxRestart-- >= 0) that._start.apply(that, arguments);
             else that.onerror.apply(this, arguments);
-        })
+        };
+        var args = Array.prototype.slice.call(arguments);
+        this._run.apply(this, [errback].concat(args));
     }
     // define the global
     global.Supervisor = Supervisor;
