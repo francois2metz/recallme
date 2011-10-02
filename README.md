@@ -31,7 +31,7 @@ sup.run(function(errback) {
 })
 ```
 
-If more than maxRestart number of restarts occur in the last maxTime seconds, then the supervisor call the error callback.
+If more than maxRestart number of restarts occur in the last maxTime seconds, then the supervisor call the error callback, otherwise the run function will be recalled.
 
 ## License
 
