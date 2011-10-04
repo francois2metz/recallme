@@ -50,3 +50,50 @@ test('should not restart the runnable fun if the maxRestart have been reached', 
         }
     });
 });
+
+test('should not call error callback if the delay between errors > maxTime', function() {
+    stop();
+    var called = 0;
+    var sup = new Supervisor({maxRestart: 1,
+                              maxTime: 1});
+    sup.onerror = function() {
+        start();
+        ok(false, 'should not be called');
+    }
+    sup.run(function(errback) {
+        called++;
+        if (called == 1) errback();
+        else if (called == 2) {
+            setTimeout(function() {
+                errback();
+            }, 1000);
+        } else {
+            setTimeout(function() {
+                start();
+                equals(called, 3);
+            }, 1000);
+        }
+    });
+});
+
+
+test('should call error callback if the delay between errors < maxTime', function() {
+    stop();
+    var called = 0;
+    var sup = new Supervisor({maxRestart: 1,
+                              maxTime: 1});
+    sup.onerror = function() {
+        start();
+        ok(true, 'should not be called');
+    }
+    sup.run(function(errback) {
+        called++;
+        if (called == 1) errback();
+        else if (called == 2) {
+            errback();
+        } else {
+            start();
+            ok(false, 'should not be called');
+        }
+    });
+});
