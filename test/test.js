@@ -42,10 +42,10 @@ test('should not restart the runnable fun if the maxRestart have been reached', 
     sup.run(function(errback) {
         called++;
         if (called < 100) errback();
-        if (called == 3) {
+        if (called == 2) {
             setTimeout(function() {
                 start();
-                equals(called, 3);
+                equals(called, 2);
             }, 1000);
         }
     });
