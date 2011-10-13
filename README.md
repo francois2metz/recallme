@@ -19,19 +19,44 @@ Supervisor has no dependencies and can be used completely standalone.
 ## Define worker and reload strategies
 
 ```javascript
-var sup = Supervisor({maxRestart: 3, maxTime: 10})
-sup.onerror = function() {
-    alert('too many attempt')
-}
-sup.run(function(errback) {
+callMe(function(errback) {
     $.ajax({
        url: 'http://example.org/',
        error: errback
     })
-})
+}).max(3) //times
+  .seconds(4) // minutes, hours
+  .onError(function() {
+    alert('too many attempt')
+}).run();
 ```
 
-If more than maxRestart number of restarts occur in the last maxTime seconds, then the supervisor call the error callback, otherwise the run function will be recalled.
+In this example, the `function` in parameter of `callMe` will be called max *3 times* in *4 seconds* if the errback parameter is called. Otherwise the `function` in parameter of `onError` will be called.
+
+## API
+
+`callMe(function)`: the initial contructor. You have to pass the function to *monitor*.
+
+`max(number)`: define the number of time we have to recalled the *runnable* function. Can depends on the number of fail by seconds.
+
+`seconds(number)`: define the number of seconds where `max` error will trigger to stop the *moitoring*.
+
+`minutes(number)`: define the number of minutes.
+
+`hours(number)`: define the number of hours.
+
+`onError(function)`: if more than `max` number of restarts occur in the last `number` of seconds/minutes/hours, then the function in parameter will be called.
+
+`run()`: start the supervisor.
+
+## Why?
+
+Because I want a standalone library to allowing to repeat an action *a la* erlang.
+
+## TODO
+
+* Introduce a `delay` fun.
+* ender compatible
 
 ## License
 

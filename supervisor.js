@@ -33,15 +33,46 @@
      * Cleanup old errors
      */
     Supervisor.prototype._cleanup = function() {
+        if (this.maxTime == 0)
+            return;
         var now = +new Date();
         var numberToRemove = 0;
         for (var i=0; i<this.errors.length; i++) {
-            if ((now - this.errors[i]) > this.maxTime * 1000) numberToRemove++;
+            if ((now - this.errors[i]) > this.maxTime) numberToRemove++;
             else break;
         }
         this.errors.splice(0, numberToRemove);
     }
     // define the global
     global.Supervisor = Supervisor;
+    global.callMe = function(run) {
+        var error = function() {};
+        var conf = {maxRestart: 0, maxTime: 0};
+        var caller = {
+            onError: function(err) {
+                error = err;
+                return this;
+            },
+            max: function(times) {
+                conf.maxRestart = times;
+                return this;
+            },
+            run: function() {
+                var sup = new Supervisor(conf);
+                sup.onerror = error;
+                sup.run(run);
+            }
+        };
+        function toTime(fun) {
+            return function(time) {
+                conf.maxTime = fun(time);
+                return caller;
+            }
+        }
+        caller.seconds = toTime(function(time) { return time * 1000; });
+        caller.minutes = toTime(function(time) { return time * 1000 * 60; });
+        caller.hours   = toTime(function(time) { return time * 1000 * 3600; });
+        return caller;
+    }
 
 })(this);
