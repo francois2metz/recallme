@@ -1,6 +1,6 @@
 # ReCallMe
 
-A micro js library to allows you to manage error by restarting the original function.
+A micro js library to allows you to manage errors by restarting the original function.
 
 Mainly used to restart ajax call, long polling stuff, ...
 
