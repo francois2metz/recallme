@@ -10,15 +10,23 @@ You can can provide the maximum number of fail in a given time range.
 
 ## Usage
 
+ReCallMe has no dependencies and can be used completely standalone.
+
+### Browser
+
 Include *recallme.min.js* in your web app, by loading it as usual:
 
 ```html
 <script src="recallme.min.js"></script>
 ```
 
-Or with nodejs comming soon.
+### [Ender](http://ender.no.de/)
 
-ReCallMe has no dependencies and can be used completely standalone.
+    ender build recallme
+
+### NodeJS
+
+Coming soon.
 
 ## Define restart strategy
 
@@ -53,6 +61,15 @@ In this example, the `function` in parameter of `callMe` will be called max *3 t
 
 `run()`: start the *monitoring*.
 
+## Ender Support
+
+```javascript
+$.callMe(function() {}).run();
+
+var re = require('recallme');
+re.callMe(function() {}).run()
+```
+
 ## Why?
 
 Because I want a standalone library to allowing to repeat an action *a la* erlang.
@@ -60,7 +77,6 @@ Because I want a standalone library to allowing to repeat an action *a la* erlan
 ## TODO
 
 * Introduce a `delay` fun.
-* ender compatible
 
 ## License
 

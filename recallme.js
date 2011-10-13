@@ -1,5 +1,10 @@
 ;(function(global){
-    
+
+    // to be compatible with both commonJS and the browser
+    if (typeof exports !== 'undefined') {
+        global = exports;
+    }
+
     function Supervisor(conf) {
         conf = conf || {};
         this.maxRestart = conf.maxRestart || 0;
