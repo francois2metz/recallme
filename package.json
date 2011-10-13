@@ -1,10 +1,10 @@
 {
   "name": "recallme",
   "description": "A micro js library to allows you to manage errors by restarting the original function.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "keywords": ["supervisor", "ender"],
   "homepage": "https://github.com/francois2metz/recallme",
-  "authors": ["François de Metz"],
+  "author": "François de Metz",
   "repository": {
     "type": "git",
     "url": "https://github.com/francois2metz/recallme.git"
