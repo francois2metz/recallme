@@ -66,7 +66,7 @@ test('should not call error callback if the delay between errors > maxTime', fun
         else if (called == 2) {
             setTimeout(function() {
                 errback();
-            }, 1000);
+            }, 1100);
         } else {
             setTimeout(function() {
                 start();
@@ -90,7 +90,9 @@ test('should call error callback if the delay between errors < maxTime', functio
         called++;
         if (called == 1) errback();
         else if (called == 2) {
-            errback();
+            setTimeout(function() {
+                errback();
+            }, 200);
         } else {
             start();
             ok(false, 'should not be called');

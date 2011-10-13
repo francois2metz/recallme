@@ -36,7 +36,7 @@
         var now = +new Date();
         var numberToRemove = 0;
         for (var i=0; i<this.errors.length; i++) {
-            if ((now - this.errors[i]) > this.maxTime) numberToRemove++;
+            if ((now - this.errors[i]) > this.maxTime * 1000) numberToRemove++;
             else break;
         }
         this.errors.splice(0, numberToRemove);
