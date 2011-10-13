@@ -1,4 +1,4 @@
-module('supervisor');
+module('ReCallMe');
 
 test('should define a Supervisor object', function() {
     ok(Supervisor);

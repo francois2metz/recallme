@@ -1,22 +1,26 @@
-# Supervisor
+# ReCallMe
 
-A micro js library to emulate erlang supervisor behaviour.
+A micro js library to allows you to manage error by restarting the original function.
+
+Mainly used to restart ajax call, long polling stuff, ...
+
+You can can provide the maximum number of fail in a given time range.
 
 *Work in progress: this is a simple experiment.*
 
 ## Usage
 
-Include supervisor.min.js in your web app, by loading it as usual:
+Include *recallme.min.js* in your web app, by loading it as usual:
 
 ```html
-<script src="supervisor.min.js"></script>
+<script src="recallme.min.js"></script>
 ```
 
 Or with nodejs comming soon.
 
-Supervisor has no dependencies and can be used completely standalone.
+ReCallMe has no dependencies and can be used completely standalone.
 
-## Define worker and reload strategies
+## Define restart strategy
 
 ```javascript
 callMe(function(errback) {
@@ -47,7 +51,7 @@ In this example, the `function` in parameter of `callMe` will be called max *3 t
 
 `onError(function)`: if more than `max` number of restarts occur in the last `number` of seconds/minutes/hours, then the function in parameter will be called.
 
-`run()`: start the supervisor.
+`run()`: start the *monitoring*.
 
 ## Why?
 
