@@ -26,7 +26,7 @@ Include *recallme.min.js* in your web app, by loading it as usual:
 
 ### NodeJS
 
-Coming soon.
+    npm install recallme
 
 ## Define restart strategy
 
@@ -66,6 +66,13 @@ In this example, the `function` in parameter of `callMe` will be called max *3 t
 ```javascript
 $.callMe(function() {}).run();
 
+var re = require('recallme');
+re.callMe(function() {}).run()
+```
+
+## NodeJS
+
+```javascript
 var re = require('recallme');
 re.callMe(function() {}).run()
 ```
