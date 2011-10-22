@@ -6,8 +6,6 @@ Mainly used to restart ajax call, long polling stuff, ...
 
 You can can provide the maximum number of fail in a given time range.
 
-*Work in progress: this is a simple experiment.*
-
 ## Usage
 
 ReCallMe has no dependencies and can be used completely standalone.
@@ -38,6 +36,9 @@ callMe(function(errback) {
     })
 }).max(3) //times
   .seconds(4) // minutes, hours
+  .delay(function(nbErrors) {
+    return nbErrors * 2;
+  })
   .onError(function() {
     alert('too many attempt')
 }).run();
@@ -56,6 +57,8 @@ In this example, the `function` in parameter of `callMe` will be called max *3 t
 `minutes(number)`: define the number of minutes.
 
 `hours(number)`: define the number of hours.
+
+`delay(function)`: should return the number of second before next restart. The function take the current number of fail. Default delay is 0.
 
 `onError(function)`: if more than `max` number of restarts occur in the last `number` of seconds/minutes/hours, then the function in parameter will be called.
 
@@ -79,11 +82,7 @@ re.callMe(function() {}).run()
 
 ## Why?
 
-Because I want a standalone library to allowing to repeat an action *a la* erlang.
-
-## TODO
-
-* Introduce a `delay` fun.
+Because I want a standalone library to allowing to repeat an action if an error occurs.
 
 ## License
 

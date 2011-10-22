@@ -9,6 +9,7 @@
         conf = conf || {};
         this.maxRestart = conf.maxRestart || 0;
         this.maxTime = conf.maxTime || 0;
+        this.delay = conf.delay || function() {return 0;}
         this.onerror = function() {};
         this.errors = [];
     }
@@ -30,9 +31,15 @@
     }
     Supervisor.prototype._restartOrError = function() {
         this._cleanup();
-        var fun = this.onerror;
-        if (this.maxRestart >= this.errors.length) fun = this._start;
-        fun.apply(this, arguments);
+        // recall the function, with an optional delay
+        if (this.maxRestart >= this.errors.length) {
+            var that = this;
+            var args = arguments;
+            setTimeout(function() {
+                that._start.apply(that, args);
+            }, this.delay(this.errors.length) * 1000);
+        // error, we stop
+        } else this.onerror.apply(this, arguments);
     }
     /**
      * Cleanup old errors
@@ -52,7 +59,7 @@
     global.Supervisor = Supervisor;
     global.callMe = function(run) {
         var error = function() {};
-        var conf = {maxRestart: 0, maxTime: 0};
+        var conf = {maxRestart: 0, maxTime: 0, delay: null};
         var caller = {
             onError: function(err) {
                 error = err;
@@ -60,6 +67,10 @@
             },
             max: function(times) {
                 conf.maxRestart = times;
+                return this;
+            },
+            delay: function(fun) {
+                conf.delay = fun;
                 return this;
             },
             run: function() {

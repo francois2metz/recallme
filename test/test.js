@@ -97,3 +97,28 @@ test('should call error callback if the delay between errors < maxTime', functio
         ok(true, 'should not be called');
     }).max(1).seconds(1).run();
 });
+
+test('should delay the restart is a delay function is provided', function() {
+    stop();
+    var called = 0;
+    var time = null;
+    callMe(function(errback) {
+        called++;
+        if (called == 1) errback();
+        else if (called == 2) {
+            start();
+            var diff = Date.now() - time;
+            ok(diff < 3000 && diff >= 1970, diff);
+        } else {
+            start();
+            ok(false, 'should not be called');
+        }
+    }).delay(function(nbErrors) {
+        equals(1, nbErrors);
+        time = Date.now();
+        return 2;
+    }).onError(function() {
+        start();
+        ok(true, 'should not be called');
+    }).max(1).run();
+});
